@@ -1,0 +1,50 @@
+import tkinter as tk
+from tkinter import messagebox
+
+alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+def kod():
+    letter = letter_entry.get()
+    if len(letter) != 5 or letter.isalpha() == False or letter.isascii() == False:
+        tk.messagebox.showwarning('Неверный ввод!', 'Нужно ввести 5 латинских букв!')
+        return 0
+    letter = letter.upper()
+    letter_entry.delete(0, 5)
+    key = letter + '-'
+    for i in range(5):
+        if alphabet.index(letter[i]) + 3 <= 25:
+            key += alphabet[alphabet.index(letter[i]) + 3]
+        else:
+            key += alphabet[26 - (alphabet.index(letter[i]) + 3)]
+    key += '-'
+    for i in range(5):
+        key += alphabet[alphabet.index(letter[i]) - 5]
+
+    full_key_label.configure(text=key)
+
+
+
+window = tk.Tk()
+window.title('My app')
+window.geometry('370x370')
+bg_img = tk.PhotoImage(file='Overwatch.png')
+
+label_bg = tk.Label(window, image=bg_img)
+label_bg.place(x=0, y=0, relwidth=1, relheight=1)
+
+letter_label = tk.Label(window, text='Введите первые 5 букв ключа: ', font=('Verdana', 10))
+letter_label.place(relx=0.07, rely=0.35)
+letter_entry = tk.Entry(window, width=10, font=('Verdana', 10))
+letter_entry.insert(0, '')
+letter_entry.place(relx=0.7, rely=0.35)
+
+btn_kod = tk.Button(window, text='OK', width=15, command=kod)
+btn_kod.place(relx=0.345, rely=0.45)
+'''
+key_label = tk.Label(window, text='Ключ:', font=('Verdana', 10))
+key_label.place(relx=0.2, rely=0.65)
+'''
+full_key_label = tk.Label(window, text='XXXXX-XXXXX-XXXXX', font=('Verdana', 10))
+full_key_label.place(relx=0.288, rely=0.65)
+
+window.mainloop()
